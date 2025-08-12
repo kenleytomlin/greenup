@@ -36,11 +36,23 @@ import "./ui/components/switch.js";
 import "./ui/components/dropdown_menu.js";
 
 let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content")
+const ThemeToggle = {
+  mounted() {
+    this.el.addEventListener("click", () => {
+      try {
+        const isDark = document.documentElement.classList.toggle("dark");
+        localStorage.setItem("theme", isDark ? "dark" : "light");
+        this.el.setAttribute("aria-pressed", String(isDark));
+      } catch (_) {}
+    });
+  }
+};
+
 let liveSocket = new LiveSocket("/live", Socket, {
   longPollFallbackMs: 2500,
   params: {_csrf_token: csrfToken}
 ,
-  hooks: { SaladUI: SaladUI.SaladUIHook }})
+  hooks: { SaladUI: SaladUI.SaladUIHook, ThemeToggle }})
 
 // Show progress bar on live navigation and form submits
 topbar.config({barColors: {0: "#29d"}, shadowColor: "rgba(0, 0, 0, .3)"})

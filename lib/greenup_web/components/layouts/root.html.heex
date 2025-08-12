@@ -11,7 +11,14 @@
     <script defer phx-track-static type="text/javascript" src={~p"/assets/app.js"}>
     </script>
   </head>
-  <body class="bg-white">
+  <body class="bg-white" x-data x-init="
+    (function(){
+      try {
+        var theme = localStorage.getItem('theme') || 'light';
+        if (theme === 'dark') { document.documentElement.classList.add('dark'); }
+      } catch(_) {}
+    })();
+  ">
     {@inner_content}
   </body>
 </html>

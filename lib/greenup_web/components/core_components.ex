@@ -570,6 +570,198 @@ defmodule GreenupWeb.CoreComponents do
     """
   end
 
+  # Salad UI wrappers
+  @doc """
+  Wrapper for Salad UI button with variant/size support.
+
+  Example:
+      <.ui_button variant="secondary" size="sm">Click</.ui_button>
+  """
+  attr :type, :string, default: nil
+  attr :class, :string, default: nil
+  attr :variant, :string, values: ~w(default secondary destructive outline ghost link), default: "default"
+  attr :size, :string, values: ~w(default sm lg icon), default: "default"
+  attr :rest, :global, include: ~w(disabled form name value)
+  slot :inner_block, required: true
+
+  def ui_button(assigns) do
+    ~H"""
+    <GreenupUi.Button.button
+      type={@type}
+      variant={@variant}
+      size={@size}
+      class={@class}
+      {@rest}
+    >
+      {render_slot(@inner_block)}
+    </GreenupUi.Button.button>
+    """
+  end
+
+  @doc """
+  Wrapper for Salad UI input.
+  """
+  attr :id, :any, default: nil
+  attr :name, :any, default: nil
+  attr :value, :any
+  attr :type, :string, default: "text"
+  attr :class, :string, default: nil
+  attr :rest, :global
+  slot :inner_block
+
+  def ui_input(assigns) do
+    ~H"""
+    <GreenupUi.Input.input id={@id} name={@name} value={@value} type={@type} class={@class} {@rest} />
+    """
+  end
+
+  @doc """
+  Wrapper for Salad UI select.
+  """
+  attr :id, :string, default: nil
+  attr :name, :any, default: nil
+  attr :value, :any, default: nil
+  attr :class, :string, default: nil
+  slot :inner_block, required: true
+  attr :rest, :global
+
+  def ui_select(assigns) do
+    ~H"""
+    <GreenupUi.Select.select id={@id} name={@name} value={@value} class={@class} {@rest}>
+      {render_slot(@inner_block)}
+    </GreenupUi.Select.select>
+    """
+  end
+
+  @doc """
+  Wrapper for Salad UI table blocks.
+  """
+  attr :class, :string, default: nil
+  attr :rest, :global
+  slot :inner_block, required: true
+  def ui_table(assigns) do
+    ~H"""
+    <GreenupUi.Table.table class={@class} {@rest}>
+      {render_slot(@inner_block)}
+    </GreenupUi.Table.table>
+    """
+  end
+
+  attr :class, :string, default: nil
+  attr :rest, :global
+  slot :inner_block, required: true
+  def ui_table_header(assigns) do
+    ~H"""
+    <GreenupUi.Table.table_header class={@class} {@rest}>
+      {render_slot(@inner_block)}
+    </GreenupUi.Table.table_header>
+    """
+  end
+
+  attr :class, :string, default: nil
+  attr :rest, :global
+  slot :inner_block, required: true
+  def ui_table_row(assigns) do
+    ~H"""
+    <GreenupUi.Table.table_row class={@class} {@rest}>
+      {render_slot(@inner_block)}
+    </GreenupUi.Table.table_row>
+    """
+  end
+
+  attr :class, :string, default: nil
+  attr :rest, :global
+  slot :inner_block, required: true
+  def ui_table_head(assigns) do
+    ~H"""
+    <GreenupUi.Table.table_head class={@class} {@rest}>
+      {render_slot(@inner_block)}
+    </GreenupUi.Table.table_head>
+    """
+  end
+
+  attr :class, :string, default: nil
+  attr :rest, :global
+  slot :inner_block, required: true
+  def ui_table_body(assigns) do
+    ~H"""
+    <GreenupUi.Table.table_body class={@class} {@rest}>
+      {render_slot(@inner_block)}
+    </GreenupUi.Table.table_body>
+    """
+  end
+
+  attr :class, :string, default: nil
+  attr :rest, :global
+  slot :inner_block, required: true
+  def ui_table_cell(assigns) do
+    ~H"""
+    <GreenupUi.Table.table_cell class={@class} {@rest}>
+      {render_slot(@inner_block)}
+    </GreenupUi.Table.table_cell>
+    """
+  end
+
+  @doc """
+  Wrapper for Salad UI dialog (modal).
+  """
+  attr :id, :string, required: true
+  attr :open, :boolean, default: false
+  slot :inner_block, required: true
+  attr :rest, :global
+  def ui_dialog(assigns) do
+    ~H"""
+    <GreenupUi.Dialog.dialog id={@id} open={@open} {@rest}>
+      {render_slot(@inner_block)}
+    </GreenupUi.Dialog.dialog>
+    """
+  end
+
+  @doc """
+  Render a Salad-styled flash using `GreenupUi.Alert`.
+  """
+  attr :id, :string, doc: "the optional id of flash container"
+  attr :flash, :map, default: %{}, doc: "the map of flash messages to display"
+  attr :title, :string, default: nil
+  attr :kind, :atom, values: [:info, :error], doc: "used for styling and flash lookup"
+  attr :rest, :global, doc: "the arbitrary HTML attributes to add to the flash container"
+
+  slot :inner_block, doc: "the optional inner block that renders the flash message"
+
+  def ui_flash(assigns) do
+    assigns = assign_new(assigns, :id, fn -> "flash-#{assigns.kind}" end)
+    assigns = assign(assigns, :variant, if(assigns.kind == :error, do: "destructive", else: "default"))
+
+    ~H"""
+    <div :if={msg = render_slot(@inner_block) || Phoenix.Flash.get(@flash, @kind)} id={@id} {@rest}>
+      <GreenupUi.Alert.alert variant={@variant} class="fixed top-2 right-2 mr-2 w-80 sm:w-96 z-50">
+        <span>
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24">
+            <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M9 12l2 2l4-4"></path>
+          </svg>
+        </span>
+        <GreenupUi.Alert.alert_title :if={@title}>{@title}</GreenupUi.Alert.alert_title>
+        <GreenupUi.Alert.alert_description>{msg}</GreenupUi.Alert.alert_description>
+      </GreenupUi.Alert.alert>
+    </div>
+    """
+  end
+
+  @doc """
+  Shows the flash group with Salad styles.
+  """
+  attr :flash, :map, required: true, doc: "the map of flash messages"
+  attr :id, :string, default: "flash-group", doc: "the optional id of flash container"
+
+  def ui_flash_group(assigns) do
+    ~H"""
+    <div id={@id}>
+      <.ui_flash kind={:info} title={gettext("Success!")} flash={@flash} />
+      <.ui_flash kind={:error} title={gettext("Error!")} flash={@flash} />
+    </div>
+    """
+  end
+
   @doc """
   Renders a [Heroicon](https://heroicons.com).
 
