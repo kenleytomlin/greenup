@@ -43,7 +43,7 @@ defmodule Greenup.Ash.Resources.User do
 
   policies do
     policy always() do
-      authorize_if expr(actor(:is_admin) == true)
+      authorize_if actor_attribute_equals(:is_admin, true)
     end
   end
 end
