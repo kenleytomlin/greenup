@@ -11,6 +11,9 @@ config :greenup,
   ecto_repos: [Greenup.Repo],
   generators: [timestamp_type: :utc_datetime]
 
+# Configure Ash domains
+config :greenup, ash_domains: [Greenup.AshDomain]
+
 # Configures the endpoint
 config :greenup, GreenupWeb.Endpoint,
   url: [host: "localhost"],
