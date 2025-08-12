@@ -28,6 +28,20 @@ mix test
 
 Versions (from Dockerfile): Elixir 1.18.4, Erlang/OTP 28.0.1.
 
+## Salad UI + LiveView
+
+- Components installed via `{:salad_ui, "~> 1.0.0-beta.3"}` and `mix salad.install`.
+- Global theme tokens live in `assets/css/app.css` (`:root` and `.dark`). Dark mode uses pure black background.
+- App shell lives in `lib/greenup_web/components/layouts/app.html.heex` (slim sidebar + sticky header).
+- Toggle theme: header button with `phx-hook="ThemeToggle"` persists choice to `localStorage`.
+- Use wrappers in `lib/greenup_web/components/core_components.ex` like `<.ui_button>`, `<.ui_table>` for Salad styles.
+
+Build assets:
+
+```bash
+mix assets.build
+```
+
 ## Learn more
 
   * Official website: https://www.phoenixframework.org/

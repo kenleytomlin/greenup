@@ -579,20 +579,18 @@ defmodule GreenupWeb.CoreComponents do
   """
   attr :type, :string, default: nil
   attr :class, :string, default: nil
-  attr :variant, :string, values: ~w(default secondary destructive outline ghost link), default: "default"
+
+  attr :variant, :string,
+    values: ~w(default secondary destructive outline ghost link),
+    default: "default"
+
   attr :size, :string, values: ~w(default sm lg icon), default: "default"
   attr :rest, :global, include: ~w(disabled form name value)
   slot :inner_block, required: true
 
   def ui_button(assigns) do
     ~H"""
-    <GreenupUi.Button.button
-      type={@type}
-      variant={@variant}
-      size={@size}
-      class={@class}
-      {@rest}
-    >
+    <GreenupUi.Button.button type={@type} variant={@variant} size={@size} class={@class} {@rest}>
       {render_slot(@inner_block)}
     </GreenupUi.Button.button>
     """
@@ -639,6 +637,7 @@ defmodule GreenupWeb.CoreComponents do
   attr :class, :string, default: nil
   attr :rest, :global
   slot :inner_block, required: true
+
   def ui_table(assigns) do
     ~H"""
     <GreenupUi.Table.table class={@class} {@rest}>
@@ -650,6 +649,7 @@ defmodule GreenupWeb.CoreComponents do
   attr :class, :string, default: nil
   attr :rest, :global
   slot :inner_block, required: true
+
   def ui_table_header(assigns) do
     ~H"""
     <GreenupUi.Table.table_header class={@class} {@rest}>
@@ -661,6 +661,7 @@ defmodule GreenupWeb.CoreComponents do
   attr :class, :string, default: nil
   attr :rest, :global
   slot :inner_block, required: true
+
   def ui_table_row(assigns) do
     ~H"""
     <GreenupUi.Table.table_row class={@class} {@rest}>
@@ -672,6 +673,7 @@ defmodule GreenupWeb.CoreComponents do
   attr :class, :string, default: nil
   attr :rest, :global
   slot :inner_block, required: true
+
   def ui_table_head(assigns) do
     ~H"""
     <GreenupUi.Table.table_head class={@class} {@rest}>
@@ -683,6 +685,7 @@ defmodule GreenupWeb.CoreComponents do
   attr :class, :string, default: nil
   attr :rest, :global
   slot :inner_block, required: true
+
   def ui_table_body(assigns) do
     ~H"""
     <GreenupUi.Table.table_body class={@class} {@rest}>
@@ -694,6 +697,7 @@ defmodule GreenupWeb.CoreComponents do
   attr :class, :string, default: nil
   attr :rest, :global
   slot :inner_block, required: true
+
   def ui_table_cell(assigns) do
     ~H"""
     <GreenupUi.Table.table_cell class={@class} {@rest}>
@@ -709,6 +713,7 @@ defmodule GreenupWeb.CoreComponents do
   attr :open, :boolean, default: false
   slot :inner_block, required: true
   attr :rest, :global
+
   def ui_dialog(assigns) do
     ~H"""
     <GreenupUi.Dialog.dialog id={@id} open={@open} {@rest}>
@@ -730,14 +735,23 @@ defmodule GreenupWeb.CoreComponents do
 
   def ui_flash(assigns) do
     assigns = assign_new(assigns, :id, fn -> "flash-#{assigns.kind}" end)
-    assigns = assign(assigns, :variant, if(assigns.kind == :error, do: "destructive", else: "default"))
+
+    assigns =
+      assign(assigns, :variant, if(assigns.kind == :error, do: "destructive", else: "default"))
 
     ~H"""
     <div :if={msg = render_slot(@inner_block) || Phoenix.Flash.get(@flash, @kind)} id={@id} {@rest}>
       <GreenupUi.Alert.alert variant={@variant} class="fixed top-2 right-2 mr-2 w-80 sm:w-96 z-50">
         <span>
           <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24">
-            <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M9 12l2 2l4-4"></path>
+            <path
+              fill="none"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-width="2"
+              d="M9 12l2 2l4-4"
+            >
+            </path>
           </svg>
         </span>
         <GreenupUi.Alert.alert_title :if={@title}>{@title}</GreenupUi.Alert.alert_title>

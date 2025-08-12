@@ -5,50 +5,50 @@ defmodule Greenup.Ash.Resources.TradeLog do
     authorizers: [Ash.Policy.Authorizer]
 
   postgres do
-    table "trade_logs"
-    repo Greenup.Repo
+    table("trade_logs")
+    repo(Greenup.Repo)
   end
 
   attributes do
-    uuid_primary_key :id
+    uuid_primary_key(:id)
 
     attribute :market_id, :string do
-      allow_nil? false
+      allow_nil?(false)
     end
 
     attribute :side, :string do
-      allow_nil? false
+      allow_nil?(false)
     end
 
     attribute :stake, :decimal do
-      allow_nil? false
+      allow_nil?(false)
     end
 
     attribute :price, :decimal do
-      allow_nil? false
+      allow_nil?(false)
     end
 
     attribute :result_pnl, :decimal do
-      allow_nil? true
+      allow_nil?(true)
     end
 
     attribute :occurred_at, :utc_datetime do
-      allow_nil? false
+      allow_nil?(false)
     end
 
-    create_timestamp :inserted_at
-    update_timestamp :updated_at
+    create_timestamp(:inserted_at)
+    update_timestamp(:updated_at)
   end
 
   actions do
-    defaults [:read, :create, :update, :destroy]
+    defaults([:read, :create, :update, :destroy])
 
-    default_accept [:market_id, :side, :stake, :price, :result_pnl, :occurred_at]
+    default_accept([:market_id, :side, :stake, :price, :result_pnl, :occurred_at])
   end
 
   policies do
     policy always() do
-      authorize_if actor_attribute_equals(:is_admin, true)
+      authorize_if(actor_attribute_equals(:is_admin, true))
     end
   end
 end
