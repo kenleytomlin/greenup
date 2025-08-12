@@ -4,7 +4,7 @@
 #
 
 app = 'greenup'
-primary_region = 'fra'
+primary_region = 'lhr'
 kill_signal = 'SIGTERM'
 
 [build]
