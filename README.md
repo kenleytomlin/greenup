@@ -36,6 +36,11 @@ Versions (from Dockerfile): Elixir 1.18.4, Erlang/OTP 28.0.1.
 - Toggle theme: header button with `phx-hook="ThemeToggle"` persists choice to `localStorage`.
 - Use wrappers in `lib/greenup_web/components/core_components.ex` like `<.ui_button>`, `<.ui_table>` for Salad styles.
 
+### Accessibility
+
+- Landmarks: `main` has `role="main"` and there is a skip link before the header.
+- Contrast: dark mode uses pure black background; borders/inputs tweaked for better contrast.
+
 Build assets:
 
 ```bash

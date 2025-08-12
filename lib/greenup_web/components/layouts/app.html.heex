@@ -19,6 +19,7 @@
   </aside>
 
   <div class="flex flex-col sm:gap-4 sm:py-4 sm:pl-14">
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:rounded-md focus:bg-primary focus:text-primary-foreground focus:px-3 focus:py-2">Skip to main content</a>
     <header class="sticky top-0 z-30 flex h-14 items-center gap-4 border-b bg-background px-4 sm:h-auto sm:border-0 sm:bg-transparent sm:px-6">
       <nav
         aria-label="breadcrumb"
@@ -45,7 +46,7 @@
       </div>
     </header>
 
-    <main class="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8">
+    <main id="main-content" role="main" class="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8">
       <div class="grid auto-rows-max items-start gap-4 md:gap-8 lg:col-span-3 xl:col-span-3 w-full">
         <.ui_flash_group flash={@flash} />
         {@inner_content}
