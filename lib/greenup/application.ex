@@ -8,6 +8,7 @@ defmodule Greenup.Application do
   @impl true
   def start(_type, _args) do
     children = [
+      TwMerge.Cache,
       GreenupWeb.Telemetry,
       Greenup.Repo,
       {DNSCluster, query: Application.get_env(:greenup, :dns_cluster_query) || :ignore},

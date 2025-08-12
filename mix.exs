@@ -32,7 +32,6 @@ defmodule Greenup.MixProject do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
-      {:igniter, "~> 0.6", only: [:dev, :test]},
       {:phoenix, "~> 1.7.21"},
       {:phoenix_ecto, "~> 4.5"},
       {:ecto_sql, "~> 3.10"},
@@ -66,7 +65,9 @@ defmodule Greenup.MixProject do
       {:ash_authentication, "~> 4.0"},
       {:ash_authentication_phoenix, "~> 2.0"},
       # SAT solver required by Ash policy compiler
-      {:picosat_elixir, "~> 0.2"}
+      {:picosat_elixir, "~> 0.2"},
+      # Salad UI
+      {:salad_ui, "~> 1.0.0-beta.3"}
     ]
   end
 

@@ -5,40 +5,40 @@ defmodule Greenup.Ash.Resources.BotConfig do
     authorizers: [Ash.Policy.Authorizer]
 
   postgres do
-    table "bot_configs"
-    repo Greenup.Repo
+    table("bot_configs")
+    repo(Greenup.Repo)
   end
 
   attributes do
-    uuid_primary_key :id
+    uuid_primary_key(:id)
 
     attribute :key, :string do
-      allow_nil? false
+      allow_nil?(false)
     end
 
     attribute :value, :map do
-      allow_nil? false
-      default %{}
+      allow_nil?(false)
+      default(%{})
     end
 
     attribute :version, :integer do
-      allow_nil? false
-      default 1
+      allow_nil?(false)
+      default(1)
     end
 
-    create_timestamp :inserted_at
-    update_timestamp :updated_at
+    create_timestamp(:inserted_at)
+    update_timestamp(:updated_at)
   end
 
   actions do
-    defaults [:read, :create, :update, :destroy]
+    defaults([:read, :create, :update, :destroy])
 
-    default_accept [:key, :value, :version]
+    default_accept([:key, :value, :version])
   end
 
   policies do
     policy always() do
-      authorize_if actor_attribute_equals(:is_admin, true)
+      authorize_if(actor_attribute_equals(:is_admin, true))
     end
   end
 end
